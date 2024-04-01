@@ -1,5 +1,5 @@
 /*
-CSC3916 HW4
+CSC3916 HW2
 File: Server.js
 Description: Web API scaffolding for Movie API
  */
@@ -13,7 +13,6 @@ var jwt = require('jsonwebtoken');
 var cors = require('cors');
 var User = require('./Users');
 var Movie = require('./Movies');
-var Review = require('./Reviews');
 
 var app = express();
 app.use(cors());
@@ -86,6 +85,106 @@ router.post('/signin', function (req, res) {
         })
     })
 });
+
+router.route('/movies')
+    .get(authJwtController.isAuthenticated, (req, res) => {
+        Movie.find({}, (err, movie) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.status(200).json(movie);
+            }
+        });
+    })
+
+    .post(authJwtController.isAuthenticated, (req, res) => {
+        if (!req.body.title || !req.body.releaseDate || !req.body.genre || !req.body.actors) {
+            return res.status(500).send({msg: 'Error: Missing Information'})
+        }
+        else {
+            var nMovie = new Movie();
+            nMovie.title = req.body.title;
+            nMovie.releaseDate = req.body.releaseDate;
+            nMovie.genre = req.body.genre;
+            nMovie.actors = req.body.actors;
+
+            nMovie.save((err) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                else{
+                    res.status(200).send({msg: 'New Movie Successfully Saved'});
+                }
+            });
+
+        }
+    })
+
+router.route('/movies/:title')
+    .get(authJwtController.isAuthenticated, (req, res) => {
+        Movie.find({title: req.params.title}, (err, movie) => {
+                if (err) {
+                    res.status(500).send(err);
+                } else {
+                    res.status(200).send(movie);
+                }
+            });
+    })
+
+    .put(authJwtController.isAuthenticated, (req, res) =>{
+        Movie.findOneAndUpdate({title: req.params.title}, req.body, {new: true}, (err) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.status(200).send({msg: 'Movie Successfully Updated'});
+            }
+        });
+    })
+
+    .delete(authController.isAuthenticated, (req, res) => {
+        Movie.findOneAndDelete({title: req.params.title}, (err) => {
+            if (err) {
+                res.status(500).send(err);
+            }
+            else {
+                res.status(200).send({msg: 'Movie Successfully Deleted'})
+            }
+        });
+    })
+
+router.route('/reviews')
+    .get(authController.isAuthenticated, (req, res) => {
+        Review.find({}, (err, review) => {
+            if (err) {
+                res.status(500).send(err);
+            } else {
+                res.status(200).json(review);
+            }
+        });
+    })
+
+    .post(authJwtController.isAuthenticated, (req, res) => {
+        if (!req.body.movieID || !req.body.username || !req.body.review || !req.body.rating) {
+            return res.status(500).send({msg: 'Error: Missing Information'})
+        }
+        else {
+            var nReview = new Review();
+            nReview.movieID = req.body.movieID;
+            nReview.username = req.body.username;
+            nReview.review = req.body.review;
+            nReview.rating = req.body.rating;
+
+            nReview.save((err) => {
+                if (err) {
+                    res.status(500).send(err);
+                }
+                else{
+                    res.status(200).send({msg: 'Review Created!'});
+                }
+            });
+
+        }
+    })
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);

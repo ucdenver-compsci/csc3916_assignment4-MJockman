@@ -123,6 +123,28 @@ router.route('/movies')
 router.route('/movies/:title')
     .get(authJwtController.isAuthenticated, (req, res) => {
         Movie.find({title: req.params.title}, (err, movie) => {
+                if (req.queries.reviews == true) {
+                    Movie.aggregate([
+                        {
+                          $match: { _id: mongoose.Types.ObjectId(movieId) }
+                        },
+                        {
+                          $lookup: {
+                            from: "reviews",
+                            localField: "_id",
+                            foreignField: "movieID",
+                            as: "MovieAndReviews"
+                          }
+                        }
+                      ]).exec(function(err, result) {
+                        if (err) {
+                          // handle error
+                        } else {
+                          console.log(result);
+                        }
+                      });
+                      
+                }
                 if (err) {
                     res.status(500).send(err);
                 } else {

@@ -59,9 +59,4 @@ Leverage the Async.js library or mongo $lookup aggregation capability to join th
 - -2 if you have to manually copy the JWT token to get their tests to run (versus saving it from the sign-in call)
 - Try changing the review data to enter a different review before submitting to validate new review are returned – if not (-1)
 
-## Resources
-- https://github.com/daxko/universal-ga
-- https://developers.google.com/analytics/devguides/collection/analyticsjs/custom-dims-mets 
-- https://cloud.google.com/appengine/docs/flexible/nodejs/integrating-with-analytics
-- https://caolan.github.io/async/index.html
-- https://support.google.com/analytics/answer/2709829
+[<img src="https://run.pstmn.io/button.svg" alt="Run In Postman" style="width: 128px; height: 32px;">](https://app.getpostman.com/run-collection/32580583-feb7f48a-385a-41ed-97d5-7e4a847c3016?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D32580583-feb7f48a-385a-41ed-97d5-7e4a847c3016%26entityType%3Dcollection%26workspaceId%3De6800d05-dff0-4df2-9ad0-6e4c14bf7e1f#?env%5BMarie%20-%20HW4%5D=W3sia2V5IjoiQXV0aFRva2VuIiwidmFsdWUiOiIwIiwiZW5hYmxlZCI6dHJ1ZSwidHlwZSI6ImRlZmF1bHQiLCJzZXNzaW9uVmFsdWUiOiIwIiwic2Vzc2lvbkluZGV4IjowfSx7ImtleSI6IlVOSVFVRV9LRVkiLCJ2YWx1ZSI6IjEyMzQiLCJlbmFibGVkIjp0cnVlLCJ0eXBlIjoiZGVmYXVsdCIsInNlc3Npb25WYWx1ZSI6IjEyMzQiLCJzZXNzaW9uSW5kZXgiOjF9XQ==)
